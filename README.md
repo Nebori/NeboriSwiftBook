@@ -15,6 +15,10 @@
 ## NeboriSwiftBook 작성 기준 버전
 * Xcode 10.0
 	* Swift 4.2
+	
+## 챕터
+* 값
+* 타입 01
 
 ## SwiftBook 사용방법
 1. 프로젝트를 Clone해서 원하는 장소에 저장한다.
