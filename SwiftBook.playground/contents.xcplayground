@@ -3,5 +3,7 @@
     <pages>
         <page name='main'/>
         <page name='Value'/>
+        <page name='Type'/>
+        <page name='Type_02'/>
     </pages>
 </playground>
