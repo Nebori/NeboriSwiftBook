@@ -22,6 +22,7 @@
  하나씩 알아보도록 합니다.
  */
 import Foundation
+import Cocoa
 /*:
  ****
  ### 튜플
@@ -321,7 +322,103 @@ dicValue05 // ["수요일": 4, "화요일": 2, "월요일": 1]
 
 /*:
  ****
+ #### 셋
  
+ 셋은 유일한 원소를 다수개 다루는 콜렉션입니다.
+ 유일한 원소를 가진다는 점, 딕셔너리와는 다르게 키 없이 원소만 저장합니다.
+ 그러면 배열과 유일한 원소를 가진다는 점만 다른걸까요?
+ 아닙니다. 임의의 순서로, 순서가 보장되지 않는다는점이 또 다릅니다.
+ */
+
+/*:
+ ##### 셋 생성
+ 
+ 사용하는 방식은 배열과 다르지 않습니다.
+ 하지만 유일한 원소를 넣지 않고 중복된 원소를 넣으려고 시도한다면? 에러가 발생하지 않습니다.
+ 유일한 값이 남게되죠. 아래 예시가 있습니다.
+ */
+
+let setValue01: Set<String> = ["apple", "orange", "grape"] // String 타입의 3개의 유일한 원소를 갖는 셋 생성
+let setValue02 = Set<String>() // String 타입의 빈 셋 생성
+let setValue03: Set<String> = ["apple", "apple"]
+// 중복된 값이 2개가 들어가 ["apple"]만이 남게됩니다.
+
+/*:
+ ##### 셋 원소 접근방법
+ 
+ 셋 내 원소를 접근하기 위해서는 몇가지 방법이 있습니다. 아래 예시로 소개해드리겠습니다.
+ */
+
+let setValue04: Set<String> = ["apple", "orange", "grape"]
+let value04Index = setValue04.index(after: setValue04.startIndex) // setValue04의 시작 인덱스 가져오기
+setValue04[value04Index] // grape
+setValue04.first // orange
+
+/*:
+ 셋도 원소의 개수와 비어있는지 확인하는 방법이 똑같습니다.
+ */
+
+setValue04.count // 3
+setValue04.isEmpty // false
+
+/*:
+ ##### 셋 원소 추가 및 삭제
+ 
+ 셋을 `let` 으로 선언하지 않았다면 추가 및 삭제가 가능합니다.
+ `insert()` 메서드를 사용해서 원소를 추가할 수 있습니다.
+ 하지만 동일한 값을 넣었다면? 기존 원소에 덮어쓰기가 되면서 결과적으로 원소 개수가 증가하지 않습니다.
+ */
+
+var setValue05: Set<String> = ["apple", "orange", "grape"]
+setValue05.insert("strawberry")
+setValue05 // {"orange", "grape", "strawberry", "apple"}
+setValue05.insert("apple")
+setValue05 // {"orange", "grape", "strawberry", "apple"}
+
+/*:
+ 다음은 삭제하는 방법입니다.
+ `remove()` 메서드는 한개의 원소, `removeAll()` 메서드는 모든 원소를 삭제합니다.
+ */
+
+setValue05.remove("apple")
+setValue05 // {"orange", "grape", "strawberry"}
+setValue05.removeAll()
+setValue05 // 비어버렸습니다.
+
+/*:
+ ##### 셋 집합 연산방법
+ 
+ 셋이 진가를 발휘하는 방법인 집합 연산입니다.
+ 교집합, 합집합, 여집합, 차집합 등 집합 연산을 이용할 수 있는게 바로 셋 입니다. 메서드를 먼저 알아볼까요?
+ - 교집합: `intersection()` : 두 집합의 원소 중 같은 원소의 집합
+ - 합집합: `union()` : 두 집합의 원소 모두를 합한 원소의 집합
+ - 여집합: `symmetricDifference()` : 두 집합의 원소 중 같은 원소를 제외한 모든 원소의 집합
+ - 차집합: `subtracting()` : 두 집합의 원소 중 같은 원소를 제외한 한쪽 집합
+ 
+ 바로 아래에 이해를 돕기 위한 이미지를 준비했습니다.
+ 
+ ![set image](Type_02_Set.png)
+ */
+
+/*:
+ 아래는 간단한 집합 연산을 보여드리겠습니다.
+ 내가 키우는 동물 집합과 고양이 집합을 임의로 만들어 비교하는 예시입니다.
+ */
+var myAnimals: Set<String> = ["골든리트리버", "페르시안", "러시안", "래그돌", "거북이", "샴", "앵무새"]
+var cat: Set<String> = ["페르시안", "러시안", "래그돌", "샴", "노르웨이숲", "브리티시쇼트헤어", "아비시니안"]
+
+myAnimals.intersection(cat) // 두 집합에서 동일한 원소들
+myAnimals.union(cat) // 두 집합을 모두 합친 원소들
+myAnimals.symmetricDifference(cat) // 두 집합에서 서로 가지고 있지 않은 원소들
+myAnimals.subtracting(cat) // myAnimals를 기준으로 cat이 가지고 있지 않은 원소들
+
+/*:
+ ****
+ 해당 챕터는 너무 양이 많아서 두 챕터로 나누게 되었습니다.
+ 튜플과 콜렉션 모두 많이 많이 중요한 부분입니다.
+ 앞으로 Swift로 개발을 진행하시면서 많이 보시고, 사용하고, 헷갈리는 부분입니다. (지금 저도 그렇습니다.)
+ 내용을 쭉 보시고 기본적인 느낌이라도 느끼고 가셨으면 좋겠습니다.
+ 고생하셨고, 봐주셔서 감사합니다. 다음에는 조금 더 좋은 내용으로 정리해서 가져오겠습니다.
  */
 
 //: [Next](@next)
