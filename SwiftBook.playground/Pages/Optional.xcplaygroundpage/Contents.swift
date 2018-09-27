@@ -99,12 +99,160 @@ intValue05 // 123
  */
 
 let optionalValue06: Int? = 10
-optionalValue06 + 1
+// error: value of optional type 'Int?' must be unwrapped to a value of type 'Int'
+//optionalValue06 + 1
 
 /*:
  ### optional unwrapping
  
- 업로드 예정
+ 위 내용에도 나온 것 처럼 옵셔널 타입의 값은 바로 이용할 수가 없습니다.
+ 그러면 이 값을 사용하는 방법에 대해서 알아봐야겠죠?
+ 바로 `언래핑`이라는 것을 통해서 값을 사용할 수 있습니다. 옵셔널 타입의 값은 실제로 옵셔널이라는 랩에 싸여있습니다.
+ 그러면 이제 랩을 풀어보도록 하겠습니다.
  */
+
+/*:
+ #### 옵셔널 바인딩
+ 
+ 옵셔널 바인딩은 조건문을 통해서 옵셔널 타입의 값을 꺼내는 방법입니다.
+ 두 가지 방법이 있는데 이는 아래와 같습니다.
+ - if-let
+ - guard-let
+ 두 가지 방식은 차이점이 존재하는데, if-let의 경우는 if 조건문의 바디 내에서 언래핑이 된다는 점이고,
+ guard-let의 경우는 guard 문의 깊이(뎁스)까지 언래핑이 된다는 차이점이 있습니다.
+ if-let 먼저 코드로 보여드리겠습니다.
+ */
+
+let ifValue01: Int? = 10
+if let unwrapValue = ifValue01 {
+    // unwrapValue는 ifValue01의 값이 언래핑된
+    // 10의 값을 가지고 있습니다.
+    print("이 값은 언래핑된 \(unwrapValue) 입니다.")
+    // 언래핑 되어있기 때문에 위에서 실패하던 연산도 가능해집니다.
+    let unwrapSum = unwrapValue + 1
+} else {
+    print("이 값은 nil입니다.")
+}
+// error: use of unresolved identifier 'unwrapValue'
+//print("if-let은 if 바디에서만 사용이 가능하므로 \(unwrapValue)은 사용할 수 없습니다.")
+
+/*:
+ 옵셔널 바인딩을 사용할 때 여러가지 방식으로 사용할 수 있습니다.
+ if-let을 이용한 다양한 방식을 먼저 보겠습니다.
+ */
+let ifValue02: String? = "1000"
+let ifValue03: String? = "100"
+// 여러 옵셔널 변수 바인딩
+if let unwrapValue02 = ifValue02,
+    let unwrapValue03 = ifValue03 {
+    // 이렇게 여러 옵셔널 변수를 바인딩 할 수도 있고
+    // TODO
+}
+// 옵셔널 바인딩 체인
+if let unwrapValue02 = ifValue02,
+    let unwrapIntValue02 = Int(unwrapValue02) {
+    // 바인딩을 한 후에 이어서 바로 바인딩 된 값을 사용할 수 있고
+}
+// 조건 비교
+if let unwrapValue02 = ifValue02,
+    unwrapValue02 == "1000" {
+    // 옵셔널 바인딩과 조건을 비교할 수도 있습니다.
+}
+
+/*:
+ 다음으로는 guard-let 을 보여드리려고 합니다. 그런데 코드를 먼저 보시기 전에 알아두셔야 할 점이 있습니다.
+ guard-let의 경우는 사용하려면 반드시 return 이나 throw처럼 해당 메서드나 행동이 종료되는 명령이 포함되어야 합니다. 이 내용은 ControlFlow(흐름 제어) 전 챕터에 포함되어 있으니 내용을 참고하셔도 좋습니다.
+ 그래서 위 if-let처럼 사용할 수는 없고 메서드는 아직 보지는 않았지만 메서드를 이용해서 guard-let의 예시를 들도록 하겠습니다.
+ 아래 코드는 단순 예시이고, if-let에서 사용하는 다수 옵셔널 바인딩, 옵셔널 바인딩 체인, 조건 비교 모두 가능합니다.
+ */
+
+// 정수형 값 1개를 매개변수로 하는 guardLetExamFunction 메서드입니다.
+func guardLetExamFunction(value: Int?) {
+    guard let unwrapIntValue = value, unwrapIntValue > 5 else {
+        print("해당 조건에 맞지 않습니다. 빠져나가겠습니다.")
+        // 반드시 해당 메서드가 종료되는 코드를 포함해야 합니다.
+        return
+    }
+    print("guard-let 조건을 통과하여 언래핑되었습니다.")
+    print("이 값은 언래핑된 \(unwrapIntValue) 입니다.")
+    print("if-let과는 다르게 바디 밖에서 사용이 가능합니다.")
+}
+
+/*:
+ 다음으로는 `??`연산자에 대해서 알아보려고 합니다.
+ `??`연산자는 옵셔널 타입인 변수를 사용할 때 값이 nil일 경우를 대비하여 사용하는 연산자입니다.
+ 코드로 보시겠습니다.
+ */
+
+let userSettingCountry: String? = nil
+let countryName: String = userSettingCountry ?? "Republic of Korea"
+
+/*:
+ 위 코드에서 `userSettingCountry`는 값이 nil입니다.
+ 변수 `countryName`에 `userSettingCountry`를 대입하는데 만약 `userSettingCountry`이 nil이라면 "Republic of Korea" 값을 대입하라는 연산자가 바로 `??`입니다.
+ 사용자가 설정한 값을 사용해야 하는데, 사용자가 설정한 값이 없다면? 이 때와 같이 default값을 이용해야 할 경우에 사용할 수 있으니 참고해주세요.
+ */
+
+/*:
+ #### 옵셔널 체인
+ 
+ 옵셔널 체인은 옵셔널 타입의 값이 메서드나 프로퍼티를 가지고 있을 때 언래핑을 한 후에 값을 이용하지 않고 간결하게 코드를 작성할 수 있게 도와줍니다.
+ 예를 들어, 옵셔널 타입의 클래스에 옵셔널 타입의 변수에 옵셔널 타입이 리턴되는 메서드를 사용해야 합니다.
+ (아래 사용한 코드는 예시를 위한 코드로, 작동하는 코드가 아니므로 Playground에서는 주석처리하겠습니다.)
+ 단계를 적어볼까요?
+ 1. 옵셔널 타입의 클래스를 언래핑
+ 2. 옵셔널 타입의 변수를 언래핑
+ 3. 옵셔널 타입이 리턴되는 메서드의 결과 값을 언래핑
+ */
+
+//if let unwrapClass = optionalClass,
+//    let unwrapVar = unwrapClass.optionalVar,
+//    let unwrapReturnValue = unwrapVar.someFunc() {
+//    // unwrapReturnValue 결과 값을 사용
+//} else {
+//    // 옵셔널 바인딩 체인중에 nil 값이 반환되었습니다.
+//}
+
+/*:
+ 하지만 옵셔널 체인을 사용하면 어떻게 될까요?
+ 1. 옵셔널 타입의 클래스의 옵셔널 타입의 변수의 옵셔널 타입이 리턴되는 메서드의 결과 값을 언래핑
+ */
+
+//if let unwrapReturnValue = optionalClass?.optionalVar?.someFunc() {
+//    // unwrapReturnValue 결과 값을 사용
+//} else {
+//    // 옵셔널 체인중에 nil 값이 반환되었습니다.
+//}
+
+/*:
+ 위 예시보다 아래 예시가 훨씬 가독성이 높습니다.
+ 위 예시에서 이미 사용방법을 보여드렸는데, 바로 옵셔널 타입을 지정할 때 사용되는 `?`를 이용하는 것이죠.
+ 아래 예시 코드를 글로 풀어보자면, optionalClass가 nil이 아니라면, optionalVar가 nil이 아니라면, someFunc메서드를 실행하여 옵셔널 타입의 리턴 값을 unwrapReturnValue에 대입한다. 가 되는 것입니다.
+ 코드를 앞에서부터 쭉 보시면서 `?`를 만났을 때 그 값이 nil이라면 그 위치에서 nil을 반환하고, nil이 아니라면 언래핑 후 다음 코드를 진행합니다.
+ */
+
+/*:
+ #### 강제 언래핑
+ 
+ 강제 언래핑은 `!`를 사용하여 옵셔널 타입의 값을 바로 언래핑하는 기술입니다.
+ '강제'라는 이름처럼 언래핑을 무조건 실시하게 되는데 해당 값이 옵셔널 타입이고 값이 nil이 아니라면 아무 문제가 없습니다.
+ 하지만 강제 언래핑을 시도하는 값이 옵셔널 타입이고 nil이라면 런타임 에러가 발생하게 됩니다.
+ 런타임 에러는 서비스하는 어플리케이션이라면 심각한 문제를 초래할 수 있습니다.
+ 실행중 강제종료되는 경우인데, 이는 사용자에게 최악의 경험을 안겨주고 서비스하는 회사 입장에서도 끔찍한 경험이 될 것입니다.
+ 그렇기 때문에 강제 언래핑을 사용할 때는 신중해야 하고, 웬만하면 강제 언래핑은 일절 사용하지 않는 것을 추천드립니다.
+ 에러 예시는 아래와 같습니다.
+ */
+
+let ifValue04: Int? = nil
+// error: Execution was interrupted, reason: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0).
+//let forcedUnwrapValue04: Int = ifValue04!
+
+/*:
+ 값이 nil이 아니라면 에러는 발생하지 않습니다.
+ */
+
+let ifValue05: Int? = 10
+// 에러 발생하지 않음
+let forcedUnwrapValue05: Int = ifValue05!
 
 //: [Next](@next)
