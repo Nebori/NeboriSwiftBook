@@ -7,5 +7,6 @@
         <page name='Type_02'/>
         <page name='ControlFlow'/>
         <page name='Optional'/>
+        <page name='Function'/>
     </pages>
 </playground>
