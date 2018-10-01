@@ -140,4 +140,49 @@ func moneyCalculater02(tenThousand: Int, oneThousand: Int) -> Int {
 // 매개변수 명으로 내용을 유추할 수 있습니다.
 moneyCalculater02(tenThousand: 3, oneThousand: 8)
 
+/*:
+ ### 함수 매개변수의 이름
+ 
+ 위에서 매개변수의 이름을 왜 지정해야 하는지에 대해서는 어느정도 이해하셨나요?
+ 지금부터는 매개변수의 이름에 대해서 알아보도록 하겠습니다.
+ 함수를 정의할 때 적는 매개변수의 이름은 함수 바디에서 사용하는 내부 매개변수 이름입니다.
+ 외부 매개변수 이름을 따로 지정해주지 않는다면 자동으로 내부 매개변수의 이름으로 값을 대입하게 됩니다.
+ */
+
+func parameterNames(intValue: Int, strValue: String) {
+    // 여기서 intValue, strValue는 내부 매개변수 이름이 됩니다.
+    intValue // 100
+    strValue // "백"
+}
+// 이렇게 외부 매개변수 이름을 지정하지 않게되면
+// 내부 매개변수 이름이 외부 매개변수 이름으로 쓰이게 됩니다.
+parameterNames(intValue: 100, strValue: "백")
+
+/*:
+ 이미 예시에서는 보여드렸지만 외부 매개변수 이름을 설정하는 방법을 보여드리겠습니다.
+ */
+
+func parameterExternalNames(write intValue: Int, read strValue: String) {
+    // 여기서 write, read는 외부 매개변수 이름이 되고,
+    // intValue, strValue는 내부 매개변수 이름이 됩니다.
+    intValue // 100
+    strValue // "백"
+}
+// 외부에서는 write, read를 이용하는 것을 볼 수 있습니다.
+parameterExternalNames(write: 100, read: "백")
+
+/*:
+ 이번엔 외부 매개변수 이름을 생략하는 방법에 대해서 보여드리겠습니다.
+ 외부 매개변수의 이름을 생략하고 싶다면 외부 매개변수 자리에 `_`를 사용하면 됩니다.
+ 띄어쓰기를 주의해주세요!
+ */
+
+func parameterOmitNames(_ intValue: Int, read strValue: String) {
+    // 여기서 intValue의 값을 넣을 때는 이름을 생략하게 됩니다.
+    // strValue의 값을 넣을 때는 read이름을 지정하고 값을 대입해야 합니다.
+    intValue // 100
+    strValue // "백"
+}
+parameterOmitNames(100, read: "백")
+
 //: [Next](@next)
