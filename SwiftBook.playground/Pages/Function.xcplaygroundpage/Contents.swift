@@ -185,4 +185,100 @@ func parameterOmitNames(_ intValue: Int, read strValue: String) {
 }
 parameterOmitNames(100, read: "백")
 
+/*:
+ ### 함수 오버로딩
+ 
+ 함수 오버로딩은 이름이 같은 함수를 여러개 정의하는 방식입니다.
+ 함수명이 동일한데 어떻게 여러개를 정의하나요? 매개변수가 다릅니다!
+ 바로 예시로 들어가보겠습니다.
+ */
+
+func sayYourMoney(hundred money: Int) {
+    print("당신이 가진 돈은 \(money)백원입니다.")
+}
+// 아래처럼 외부 매개변수 이름이 다른 경우
+func sayYourMoney(thounsand money: Int) {
+    print("당신이 가진 돈은 \(money)천원입니다.")
+}
+// 아래처럼 매개변수 이름은 동일하지만 타입이 다른경우
+func sayYourMoney(thounsand money: String) {
+    print("당신이 가진 돈은 " + money + "천원입니다.")
+}
+sayYourMoney(hundred: 5) // 당신이 가진 돈은 5백원입니다.
+sayYourMoney(thounsand: 3) // 당신이 가진 돈은 3천원입니다.
+sayYourMoney(thounsand: "3") // 당신이 가진 돈은 3천원입니다.
+
+/*:
+ 함수의 이름은 동일하지만 외부 매개변수 이름이나, 타입에 따라서 다르게 인식되는 것을 확인할 수 있습니다.
+ */
+
+/*:
+ ### 함수 매개변수의 기본값
+ 
+ 여러분은 음식 배달 주문시에 꼭 현금, 카드로 결제하겠다고 말씀하시는 편이신가요?
+ 지금은 어플리케이션으로 주문을 많이 하지만 그 전에는 전화로 주문을 할 수 밖에 없었습니다.
+ 가끔 전화 마지막에 결제 방식을 까먹고 말 안한경우에는 카드를 내밀어보지만 현금 결제해주셔야 한다는 얘기를 종종 듣곤 했습니다.
+ 이 경우를 프로그래밍 세계로 끌고 들어와 보도록 하겠습니다.
+ 주문하는 사람은 결제 방식을 선택하지 않았지만, 배달은 도착을 했고 결국 현금 결제를 하게 되었습니다.
+ 그런데 이 행동이 함수라면 불가능하게됩니다.
+ */
+
+//func delieryOrder(order: String, isCash: Bool) {
+//    print("주문은 \(order)를 하셨습니다.")
+//    if isCash {
+//        print("결제 방식은 현금이시네요.")
+//    } else {
+//        print("결제 방식은 카드시네요.")
+//    }
+//}
+// 탕수육 중으로 하나 부탁드립니다.
+// error: missing argument for parameter 'isCash' in call
+//delieryOrder(order: "탕수육 중")
+
+/*:
+ 함수 매개변수를 설정하고 값을 넣어주지 않고 호출을 할 경우에는 에러가 발생하기 때문인데요.
+ 이 상황을 에러가 나지 않도록 변경해봅시다.
+ */
+
+func delieryOrder(order: String, isCash: Bool = true) {
+    // isCash 매개변수에 값을 넣어주지 않았기 때문에
+    // isCash는 자동적으로 기본 값인 true가 대입됩니다.
+    print("주문은 \(order)를 하셨습니다.")
+    if isCash {
+        print("결제 방식은 현금이시네요.")
+    } else {
+        print("결제 방식은 카드시네요.")
+    }
+}
+// 탕수육 중으로 하나 부탁드립니다.
+delieryOrder(order: "탕수육 중") // 주문은 탕수육 중를 하셨습니다. 결제 방식은 현금이시네요.
+
+/*:
+ 이렇게 반드시 함수에 들어와야 하는 값은 그대로 값을 받도록 만들면 되고,
+ 필수가 아니거나 특수한 경우에만 다른 값이 들어가는 경우에는 초기값을 지정해주는 것이 개발자가 사용하기 편리합니다.
+ */
+
+/*:
+ ### 함수의 가변갯수 매개변수
+ 
+ 한글로 적다보니 의미가 제대로 전달되지 않는 것 같습니다.
+ 매개변수의 수가 정해지지 않은 다수의 매개변수를 선언하는 방법을 알아보겠습니다.
+ 우선 사용하는 방법은 매개변수의 타입을 지정할 때 `...`을 사용하면 됩니다.
+ 다른 선언들과 다르게 조금 신기한 방식을 사용하니 예시를 잘 봐주세요.
+ */
+
+func partierList(_ names: String...) {
+    // 함수 바디에서는 배열로 사용할 수 있습니다.
+    names.count // 배열의 갯수
+    for name in names {
+        // 들어온 이름을 하나씩 확인
+    }
+}
+partierList("호랑이", "사자", "오소리", "다람쥐")
+
+/*:
+ 대표적으로 많이 사용하는 `print()`함수가 가변개수를 가진 매개변수를 사용합니다.
+ public func print(_ items: Any..., separator: String = default, terminator: String = default)
+ */
+
 //: [Next](@next)
