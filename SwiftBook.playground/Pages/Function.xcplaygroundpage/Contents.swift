@@ -281,4 +281,37 @@ partierList("호랑이", "사자", "오소리", "다람쥐")
  public func print(_ items: Any..., separator: String = default, terminator: String = default)
  */
 
+/*:
+### 함수와 옵셔널
+
+이전에 옵셔널을 다룰 때 값이 있을 수도 없을 수도 있을 때 사용한다고 말씀드렸습니다
+그런데 함수도 예외는 없습니다. 함수의 매개변수가 옵셔널이거나, 반환 값이 옵셔널일 수 있다는 뜻입니다.
+단계적으로 예시를 통해서 알아보도록 하겠습니다.
+먼저, 매개변수의 옵셔널에 대해서 보여드리겠습니다.
+옵셔널 타입의 언래핑 방법중에 `if-let`, `guard-let else`문을 사용하는 예제를 준비했습니다.
+*/
+
+// 매개변수의 타입을 지정할 때 ?를 사용합니다.
+func yourDrivingLicenceNumberIfLet(licenceNumber: String?) {
+    // licenceNumber은 옵셔널 타입으로 사용하기 위해서는 언래핑을 이용합니다.
+    if let unwrapNumber = licenceNumber {
+        print("당신의 운전면허 번호는 \(unwrapNumber)입니다.")
+    } else {
+        print("당신은 운전면허가 없습니다.")
+    }
+}
+func yourDrivingLicenceNumberGuardLet(licenceNumber: String?) {
+    // licenceNumber은 옵셔널 타입으로 사용하기 위해서는 언래핑을 이용합니다.
+    guard let unwrapNumber = licenceNumber else {
+        print("당신은 운전면허가 없습니다.")
+        // guard-let else문엔 반드시 빠져나가는 명령이 필요
+        return
+    }
+    print("당신의 운전면허 번호는 \(unwrapNumber)입니다.")
+}
+yourDrivingLicenceNumberIfLet(licenceNumber: nil)
+// "당신은 운전면허가 없습니다."
+yourDrivingLicenceNumberGuardLet(licenceNumber: "123456")
+// "당신의 운전면허 번호는 123456입니다."
+
 //: [Next](@next)
