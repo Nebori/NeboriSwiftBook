@@ -314,4 +314,51 @@ yourDrivingLicenceNumberIfLet(licenceNumber: nil)
 yourDrivingLicenceNumberGuardLet(licenceNumber: "123456")
 // "당신의 운전면허 번호는 123456입니다."
 
+/*:
+ 매개변수가 옵셔널 타입일 경우에는 `nil`을 대입할 수 있게됩니다.
+ 이번에는 옵셔널 타입의 반환의 예제를 보도록 하겠습니다.
+ */
+
+let licenceNumber: String? = "1234567890"
+func yourDrivingLicenceNumber() -> String? {
+    if licenceNumber == nil {
+        return nil
+    } else {
+        return licenceNumber
+    }
+}
+// 함수의 반환 값이 옵셔널 타입이기 때문에 if-let을 이용해 언래핑해서 사용할 수 있습니다.
+if let licence = yourDrivingLicenceNumber() {
+    print("운전면허를 보유하고 있습니다.")
+} else {
+    print("운전면허를 보유하고 있지 않습니다.")
+}
+
+/*:
+ ### 함수내의 함수
+ 
+ Swift는 함수의 안에 함수를 또 선언할 수 있습니다.
+ 예제로 보여드리겠습니다.
+ */
+
+func functionInFunction() {
+    func inFunction() {
+        print("함수안의 함수")
+    }
+    // 위 함수가 선언만 된 것이지 실행된 것은 아니므로 바로 실행되지는 않습니다.
+    print("이 부분이 먼저 실행됩니다.")
+    inFunction()
+}
+functionInFunction()
+
+/*:
+ ****
+ 이번 챕터에서는 함수에 대하여 알아보았습니다.
+ 함수는 프로그래밍에서 가독성을 올려주고, 코드의 중복성은 낮춰주는 매우 중요한 요소입니다.
+ 동일한 행동을 하는 부분은 함수로 묶어주고, 함수명으로 어떤 행동을 하는지 잘 서술한다면 사용하는 입장에서는 편리하게 사용할 수 있겠습니다.
+ 다음 챕터에서는 사용자 타입을 만들기위한 기본 사항중에 Struct(구조체)를 먼저 알아보도록 하겠습니다.
+ 다음에는 조금 더 좋은 내용으로 정리하고 부족한 내용은 채워서 가져오겠습니다.
+ 봐주셔서 감사합니다.
+ */
+
 //: [Next](@next)
