@@ -8,5 +8,6 @@
         <page name='ControlFlow'/>
         <page name='Optional'/>
         <page name='Function'/>
+        <page name='Struct'/>
     </pages>
 </playground>
