@@ -76,4 +76,45 @@ for citizen in citizenArray01 {
  하지만 연관된 값을 관리할 때 함수가 필요하다면 튜플보다는 구조체를 사용해야 한다는 점을 느끼셨다면 성공입니다.
  */
 
+/*:
+ ## 구조체의 정의
+ 
+ 이제 구조체를 정의하는 방법을 알아보도록 하겠습니다.
+ 구조체의 기본 구조에 대해서 먼저 봐야겠네요.
+ 
+ struct 구조체이름 {
+    // 구조체의 소유 변수들 선언
+    var 변수이름: 타입 // 구조체를 만들면서 값을 대입해야 하는 변수
+    var 변수이름: 타입? // 옵셔널 값을 다룰 수 있는 변수
+    var 변수이름 = 0 // 초기 값이 있는 변수
+ }
+ 
+ 구조체를 사용하는 방법도 바로 보여드리겠습니다.
+ 
+ var 변수이름 = 구조체이름([초기값이없는변수이름: 값])
+ 변수이름.변수이름 = 10
+ 
+ `구조체이름()`을 사용하면 구조체를 생성할 수 있고, 초기값을 설정하지 않은 변수는 구조체를 생성하면서 반드시 값을 대입해야합니다.
+ 그렇다면 이제 바로 예제로 들어가보겠습니다.
+ */
+
+struct Teacher {
+    var name: String
+    var className: String?
+}
+
+let koreanTeacher = Teacher(name: "김선생님", className: "한국어")
+// error: cannot assign to property: 'koreanTeacher' is a 'let' constant
+// koreanTeacher.name = "김선생님"
+var engTeacher = Teacher(name: "영선생님", className: "영어")
+engTeacher.name = "영어선생님"
+var newTeacher = Teacher(name: "신입선생님", className: nil)
+
+/*:
+ 간단하게 학교 선생님의 정보에 대해서 구조체를 만들어보았습니다.
+ 수업을 맡지 않을 수도 있기때문에 옵셔널 값을 포함시켰고, 간단하게 성함을 포함시켰습니다.
+ `let`으로 구조체를 생성하면 프로퍼티 값을 변경할 수 없습니다.
+ `var`로 구조체를 생성하면 프로퍼티 값을 변경할 수 있죠. 그리고 옵셔널을 다룰 수 있는 `className`프로퍼티는 `nil`을 대입해도 문제가 없습니다.
+ */
+
 //: [Next](@next)
