@@ -117,4 +117,39 @@ var newTeacher = Teacher(name: "신입선생님", className: nil)
  `var`로 구조체를 생성하면 프로퍼티 값을 변경할 수 있죠. 그리고 옵셔널을 다룰 수 있는 `className`프로퍼티는 `nil`을 대입해도 문제가 없습니다.
  */
 
+/*:
+ ## 구조체의 프로퍼티
+ 
+ 구조체의 프로퍼티는 크게 두가지로 볼 수 있습니다.
+ 단순하게 값을 저장하고 읽는 용도의 저장 프로퍼티. (예를들어 사각형의 가로, 세로길이)
+ 값을 저장하지 않고 계산을 통해서 값을 반환하는 계산 프로퍼티가 있습니다. (예를 들어 사각형의 넓이)
+ */
+
+/*:
+ ### 저장 프로퍼티
+ */
+
+struct Rectangle01 {
+    var width: Int
+    var height: Int
+}
+var rectangle01 = Rectangle01(width: 10, height: 20)
+rectangle01.width // 10
+rectangle01.height // 10
+
+/*:
+ ### 계산 프로퍼티
+ */
+
+struct Rectangle02 {
+    var width: Int
+    var height: Int
+    var area: Int {
+        // 단순히 값을 얻기만 하는 변수입니다.
+        get {
+            return width * height
+        }
+    }
+}
+
 //: [Next](@next)
