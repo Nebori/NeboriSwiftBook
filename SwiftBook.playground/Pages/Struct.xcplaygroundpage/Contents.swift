@@ -152,4 +152,61 @@ struct Rectangle02 {
     }
 }
 
+/*:
+ #### Mutating
+ 
+ 뮤테이팅은 구조체에서 정의한 함수에서 구조체의 내부 프로퍼티가 변경될 때 쓰는 키워드입니다.
+ 어떻게 사용하는지 알아보겠습니다.
+ */
+
+struct Rectangle04 {
+    var width: Int
+    var height: Int
+    
+    func noneMutateFunction() {
+        print("아무 프로퍼티도 변경하지 않았습니다.")
+    }
+    
+    // error: left side of mutating operator isn't mutable: 'self' is immutable
+    // func errorMutateFunction() {
+    //    height *= 2
+    // }
+    
+    mutating func doubleArea() {
+        width *= 2
+    }
+}
+
+var rectangle04 = Rectangle04(width: 10, height: 10)
+rectangle04.noneMutateFunction()
+rectangle04.doubleArea()
+rectangle04.width // 20
+
+/*:
+ 뮤테이팅은 예시에서 보신 것 처럼 구조체의 내부 프로퍼티가 변경될 경우 붙여주어야 합니다.
+ 그런데 왜 뮤테이팅 키워드를 붙이게 해놓았을까요?
+ 제 생각에는 함수의 정의만 보고도 내부 프로퍼티가 변경되는 함수인지 아닌지 직관적으로 알 수 있도록 만들었다는 생각이 듭니다.
+ 앞으로는 정의된 함수에 `mutating`이 붙어있다면 이 함수는 내부 프로퍼티의 값을 변경하는 함수구나 알아주시면 됩니다.
+ 그렇다면 여러분이 많이 사용하는 배열의 정의를 한번 들여다볼까요?
+ 
+ public struct Array<Element> {
+ ...
+ public mutating func shuffle()
+ ...
+ public mutating func insert(_ newElement: Element, at i: Int)
+ }
+ 
+ 배열도 구조체로 정의되어있습니다. 그리고 내부 프로퍼티를 변경하기 위해 `mutating`키워드가 포함된 함수들을 보실 수 있습니다.
+ */
+
+/*:
+ ****
+ 이번 챕터에서는 구조체에 대해서 알아보았습니다.
+ 구조체는 연관된 값들을 한군데로 묶어서 관리할 수 있고, 가독성도 뛰어난 장점을 가졌습니다.
+ 하지만 이런 장점들은 구조체만 가지고 있는 것은 아닙니다. 그렇다면 어떤 것이 이러한 장점들을 똑같이 가졌을까요?
+ 다음 챕터에서 알아보려는 `Class`입니다. 다음 챕터에서는 구조체와 같은 점, 다른 점을 모두 알아보고 `Class`에 대해서도 알아보도록 하겠습니다.
+ 다음에는 조금 더 좋은 내용으로 정리하고 부족한 내용은 채워서 가져오겠습니다.
+ 봐주셔서 감사합니다.
+ */
+
 //: [Next](@next)
