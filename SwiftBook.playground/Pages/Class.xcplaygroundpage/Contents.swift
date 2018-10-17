@@ -109,4 +109,63 @@ class Rectangle01 {
  위 예제에서 설명하고 싶은 내용은 주석에 추가하였으니 참고 부탁드립니다.
  */
 
+/*:
+ ### 클래스의 메서드
+ 
+ 구조체와 똑같이 클래스에도 메서드를 선언하고 사용할 수 있습니다.
+ 구조체에서 `mutating`키워드를 기억하시나요?
+ `mutating`은 구조체의 메서드 안에서 프로퍼티의 값을 변경하기 위해서는 키워드를 반드시 넣어야만 했습니다.
+ 클래스는 구조체와 구조는 비슷하지만, `mutating`키워드를 사용하지 않습니다.
+ 그저 메서드를 선언하고 사용하면 끝입니다.
+ 구조체의 경우 에러가 발생했지만 클래스는 아래와 같이 에러가 발생하지 않습니다.
+ */
+
+class Rectangle03 {
+    var width: Int = 0
+    var height: Int = 0
+    func doubleArea() {
+        self.width *= 2
+    }
+}
+// 객체 생성
+let rect03 = Rectangle03()
+rect03.width = 10
+rect03.height = 10
+// 메서드 사용
+rect03.doubleArea()
+rect03.width // 20
+
+/*:
+ #### 인스턴스 메서드
+ 
+ 인스턴스 메서드는 위에서 보신 예시처럼 별다른 키워드 없이 선언된 메서드입니다.
+ 객체를 생성해야만 메서드를 사용할 수 있고, 프로퍼티에 접근이 가능합니다.
+ */
+
+/*:
+ #### 타입 메서드
+ 
+ 타입 메서드는 일반적으로 객체를 생성하고 메서드를 사용하는 방식이 아니라, 객체를 생성하지 않고 사용할 수 있는 메서드입니다.
+ 대신 해당 클래스의 프로퍼티에는 접근이 불가능하고 메서드를 선언할 때 `static`키워드를 이용하면 타입 메서드를 만들 수 있습니다.
+ */
+
+class Rectangle04 {
+    var width: Int = 0
+    var height: Int = 0
+    func doubleArea() {
+        self.width *= 2
+    }
+    // error: instance member 'width' cannot be used on type 'Rectangle04'
+    // static func staticDoubleArea() {
+    //    self.width *= 2
+    // }
+    static func printWhoIAm() {
+        // 이렇게 내부 프로퍼티에 접근하지 않는다면 에러가 발생하지 않습니다.
+        print("I am Rectangle04!!")
+    }
+}
+// 사용방법은 아래와 같습니다.
+// 클래스이름.타입메서드이름()
+Rectangle04.printWhoIAm()
+
 //: [Next](@next)
