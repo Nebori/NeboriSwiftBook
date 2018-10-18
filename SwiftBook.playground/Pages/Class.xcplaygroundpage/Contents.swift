@@ -168,4 +168,47 @@ class Rectangle04 {
 // 클래스이름.타입메서드이름()
 Rectangle04.printWhoIAm()
 
+/*:
+ ### 클래스의 프로퍼티 변경 감지
+ 
+ 클래스의 프로퍼티 변경 감지에 대해서 알아보도록 하겠습니다.
+ 이름을 이렇게 적어놔서 처음 보는 것이라고 생각하실 수도 있습니다.
+ 구조체 챕터의 `프로퍼티 쓰기와 읽기`부분에서 이미 다뤘던 내용이기때문에 기초 부분은 이전 챕터를 확인해주시기 바랍니다.
+ - 쓰기(set) : 값을 대입할 때
+ - willSet : 값을 대입하기 바로 전
+ - didSet : 값을 대입한 바로 뒤
+ - 얻기(get) : 값을 조회할 때
+ 이 내용이 기억 나시나요? 바로 코드로 들어가보겠습니다.
+ */
+
+class Rectangle05 {
+    var width: Int {
+        willSet {
+            print("원래 값: \(width) 대입하려는 값: \(newValue)")
+        }
+        didSet {
+            print("이전 값: \(oldValue) 바뀐 값: \(width)")
+        }
+    }
+    var height: Int {
+        willSet {
+            print("원래 값: \(height) 대입하려는 값: \(newValue)")
+        }
+        didSet {
+            print("이전 값: \(oldValue) 바뀐 값: \(height)")
+        }
+    }
+    
+    init(width: Int, height: Int) {
+        // Class의 initializer에서 초기값을 설정 할 때는
+        // 프로퍼티의 변경 감지가 작동하지 않습니다.
+        self.width = width
+        self.height = height
+    }
+}
+
+var rectangle05 = Rectangle05(width: 10, height: 10)
+rectangle05.width = 15
+rectangle05.height = 30
+
 //: [Next](@next)
