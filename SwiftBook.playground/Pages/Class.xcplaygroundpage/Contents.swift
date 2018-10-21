@@ -284,5 +284,47 @@ if faithfulRandom.employee_02 == lazyRandom.employee_02 { // 이곳을 주목해
  이 예시처럼 `lazy`는 해당 게으른 변수를 호출 했을 때 초기화를 진행한다는 점을 확인하시면 되겠습니다.
  */
 
+/*:
+ ### 다른 점에 대하여
+ 
+ 위 내용과 이어서 구조체와 클래스는 엄연히 다른 것 입니다.
+ 구조체는 하나의 `값`이지만, 클래스는 하나의 `주소 값`입니다.
+ */
+
+/*:
+ #### 클래스와 구조체의 복사
+ 
+ 클래스와 구조체의 복사에 대해서 보여드리려고 합니다.
+ 클래스는 참조 복사가, 구조체는 복사가 이루어지는데요.
+ 참조 복사는 값이 복사되는 것이 아니라 주소 값이 복사되면서 사실상 값을 참조하게 된다는 뜻입니다.
+ 예시로 보여드리겠습니다.
+ */
+
+class classExam {
+    var value = 10
+}
+struct structExam {
+    var value = 10
+}
+
+var classValue = classExam()
+var classCopyValue = classValue // 참조 복사
+classValue.value = 20
+
+var structValue = structExam()
+var structCopyValue = structValue // 복사
+structValue.value = 20
+
+// 참조 복사이기 때문에 복사를 한 클래스의 값이 변경되면
+// 변경된 클래스를 따라 값이 변경되는 것 처럼 보입니다.
+// (참조이기 때문에 변한건 아닙니다.)
+classValue.value // 20
+classCopyValue.value // 20
+
+// 실제 값이 복사되므로 복사를 한 구조체의 값이 변경되더라도
+// 복사가 된 구조체의 값은 바뀌지 않습니다.
+structValue.value // 20
+structCopyValue.value // 10
+
 
 //: [Next](@next)
