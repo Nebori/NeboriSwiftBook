@@ -73,4 +73,35 @@ case .run:
     print("이 사람은 달리네요.")
 }
 
+/*:
+ ### 열거형 값 부여
+ */
+
+enum IntCount: Int {
+    // Int 형일 경우 순서대로 0부터 값이 부여가 됩니다.
+    // 즉, 생략이 가능합니다.
+    case zero = 0
+    case one
+    case two
+    case three
+}
+enum IntMoney: Int {
+    case manWon = 10000
+    case cheonWon = 1000
+    case BaekWon = 100
+}
+enum StrMoney: String {
+    case manWon = "만원"
+    case cheonWon = "천원"
+    case BaekWon = "백원"
+}
+
+/*:
+ 위 예시처럼 값을 부여하게 되면 접근하여 값을 가져올 수도 있어야겠죠? `rawValue`를 이용하세요.
+ */
+
+IntCount.zero.rawValue // 0
+IntMoney.manWon.rawValue // 10000
+StrMoney.manWon.rawValue // "만원"
+
 //: [Next](@next)
