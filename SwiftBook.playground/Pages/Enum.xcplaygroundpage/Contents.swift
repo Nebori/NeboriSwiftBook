@@ -88,12 +88,12 @@ enum IntCount: Int {
 enum IntMoney: Int {
     case manWon = 10000
     case cheonWon = 1000
-    case BaekWon = 100
+    case baekWon = 100
 }
 enum StrMoney: String {
     case manWon = "만원"
     case cheonWon = "천원"
-    case BaekWon = "백원"
+    case baekWon = "백원"
 }
 
 /*:
@@ -103,5 +103,43 @@ enum StrMoney: String {
 IntCount.zero.rawValue // 0
 IntMoney.manWon.rawValue // 10000
 StrMoney.manWon.rawValue // "만원"
+
+/*:
+ ### 열거형의 메서드, 프로퍼티
+ 
+ 열거형에도 구조체와 클래스처럼 메서드와 프로퍼티를 선언하여 사용할 수 있습니다.
+ 그런데 프로퍼티의 경우에는 계산 프로퍼티만 사용할 수 있는 점을 기억해주세요.
+ */
+
+enum MoneyPropertiesAndMethod {
+    case manWon
+    case cheonWon
+    case baekWon
+    case sipWon
+    var koreanMoneyName: String {
+        switch self {
+        case .manWon:
+            return "만원"
+        case .cheonWon:
+            return "천원"
+        case .baekWon:
+            return "백원"
+        case .sipWon:
+            return "십원"
+        }
+    }
+    // error: enums must not contain stored properties
+    // var storeProperty = "store"
+    func speaking() {
+        print("현재 \(self.koreanMoneyName)을 갖고 있습니다.")
+    }
+}
+
+var koreanMoney = MoneyPropertiesAndMethod.cheonWon
+koreanMoney.speaking()
+
+/*:
+ 위 예제에 에러코드가 포함되어 있습니다. 위 처럼 저장 프로퍼티는 사용할 수 없는점을 확인해주시면 됩니다.
+ */
 
 //: [Next](@next)
