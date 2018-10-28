@@ -142,4 +142,57 @@ koreanMoney.speaking()
  위 예제에 에러코드가 포함되어 있습니다. 위 처럼 저장 프로퍼티는 사용할 수 없는점을 확인해주시면 됩니다.
  */
 
+/*:
+ ### 열거형의 저장 프로퍼티 같은 association
+ 
+ 위에 내용중에 계산 프로퍼티는 사용할 수 있지만 저장 프로퍼티는 사용할 수 없다고 말씀드렸습니다.
+ 하지만 열거형에도 저장 프로퍼티 처럼 값을 저장할 수 있는 방법이 있습니다.
+ 바로 열거형에서 케이스를 정의할 때 값을 받아서 보관할 수 있는데요. 아래 내용을 확인해주세요.
+ */
+
+enum MoneyAssociation {
+    case manWon
+    case cheonWon
+    case baekWon
+    case sipWon
+    // ()를 이용하여 원하는 값을 받습니다.
+    case blankWon(Int)
+    var koreanMoneyName: String {
+        switch self {
+        case .manWon:
+            return "10000원"
+        case .cheonWon:
+            return "1000원"
+        case .baekWon:
+            return "100원"
+        case .sipWon:
+            return "10원"
+        case .blankWon(let cost):
+            // 위 case문과 차이점이 있죠?
+            // 변수 명은 개발자가 원하는 이름을 사용하면 됩니다.
+            return "\(cost)원"
+        }
+    }
+    // error: enums must not contain stored properties
+    // var storeProperty = "store"
+    func speaking() {
+        print("현재 \(self.koreanMoneyName)을 갖고 있습니다.")
+    }
+}
+
+// 아래와 같이 열거형을 사용하면서 정의한 자료형의 값을 넣어주면 사용할 수 있습니다.
+var moneyAssociation = MoneyAssociation.blankWon(500000)
+moneyAssociation.speaking()
+
+/*:
+ ****
+ 이번 챕터에서는 열거형에 대하여 알아보았습니다.
+ 오픈소스 라이브러리나 기존 라이브러리들을 사용하시다보면 은근히 많은 곳에서 열거형이 사용된다는 점을 아실 수 있을겁니다.
+ 에러를 다룬다거나, iOS에서 예를들면 버튼의 상태를 다룰 때도 열거형을 사용하죠.
+ 개발을 진행하시면서 어느 곳에서 열거형이 사용되는지 느껴보시고, 앞으로 개발을 진행하시면서 이런 부분에서 열거형을 사용하면 되겠구나! 하고 감을 잡으시기를 바랍니다.
+ 다음 챕터에서는 생성자에 대해서 알아보도록 하겠습니다.
+ 다음에는 조금 더 좋은 내용으로 정리하고 부족한 내용은 채워서 가져오겠습니다.
+ 봐주셔서 감사합니다.
+ */
+
 //: [Next](@next)
