@@ -115,4 +115,91 @@ let initStruct02 = ExamInitStruct(noneDefaultValue: "바로")
 // noneDefaultValue = "모두", requiredValue = "이용 가능합니다."
 let initStruct03 = ExamInitStruct(noneDefaultValue: "모두", requiredValue: "이용 가능합니다.")
 
+/*:
+ ### 초기화의 종류
+ 
+ 위 예제들에서는 기본적인 초기화 방법에 대하여 먼저 살펴보았습니다.
+ 지금부터는 초기화의 종류 두 가지에 대해서 알아보겠습니다.
+ 
+ - Designated Initializer (지정 초기화)
+ - Convenience Initializer (편의 초기화)
+ */
+
+/*:
+ #### 지정 초기화
+ 
+ 객체를 생성할 때 모든 프로퍼티에는 초기 값이 설정되어야 한다고 말씀드렸습니다.
+ 지정 초기화는 초기화가 필요한 모든 프로퍼티를 초기화하는 것을 말합니다.
+ 위 예제들은 구조체를 사용했으니 지금부터는 클래스를 사용해보겠습니다.
+ */
+
+class ExamDesignatedClass {
+    var fir: Int
+    var sec: Int
+    var thr: Int
+    init() {
+        // 지정 초기화
+        // 초기화가 필요한 모든 프로퍼티를 초기화했습니다.
+        fir = 0
+        sec = 1
+        // 모든 프로퍼티가 초기화가 끝나기 전에 self를 호출하면 에러가 발생합니다.
+        // 'self' used in method call 'printProperties' before all stored properties are initialized
+        // printProperties()
+        thr = 2
+        // 초기화가 끝난 후에 self를 호출하면 정상 작동합니다.
+        printProperties() // 0, 1, 2
+    }
+    init(fir: Int, sec: Int, thr: Int) {
+        self.fir = fir
+        self.sec = sec
+        self.thr = thr
+    }
+    func printProperties() {
+        print("\(fir), \(sec), \(thr)")
+    }
+}
+
+/*:
+ 지정 초기화는 하나 하나의 `init`메서드에서 모든 프로퍼티를 초기화 한다는 점을 확인하시면 됩니다.
+ 그런데 위 예제를 확인해보시면 사실상 코드 중복이 발생하고 있습니다.
+ 주석을 길게 늘어놓아서 다시 정리해보았습니다.
+ */
+
+//...
+//init() {
+//    fir = 0
+//    sec = 1
+//    thr = 2
+//    // 다른 행동
+//}
+//init(fir: Int, sec: Int, thr: Int) {
+//    self.fir = fir
+//    self.sec = sec
+//    self.thr = thr
+//}
+//...
+
+/*:
+ 프로퍼티에 값을 할당하는 코드가 동일합니다. 위 코드를 중복을 줄이기 위해서 코드를 정리해보겠습니다.
+ */
+
+//...
+//init() {
+//    self.init(fir: 0, sec: 1, thr: 2) // 에러!!!
+//    // 다른 행동
+//}
+//init(fir: Int, sec: Int, thr: Int) {
+//    self.fir = fir
+//    self.sec = sec
+//    self.thr = thr
+//}
+//...
+
+/*:
+ 그런데 에러가 발생합니다.
+ `Designated initializer for 'class' cannot delegate (with 'self.init'); did you mean this to be a convenience initializer?`
+ 지정된 이니셜라이저를 위임할 수 없고, 이 뜻이 편의 초기화를 말하는 것인가? 하고 묻는군요.
+ 네. 편의 초기화를 말하는 것이 맞습니다. 아래 내용으로 넘어갑니다.
+ */
+
 //: [Next](@next)
