@@ -269,4 +269,53 @@ class ExamConvenienceClass {
  
  일을 시켰는데 위임만 하면 일이 끝나지 않겠죠? 슬프지만 누군가는 마무리를 지어야 하는 법입니다.
  */
+
+/*:
+ #### 실패가능한 초기화
+ 
+ 초기화도 실패할 수 있습니다.
+ 
+ 예를들어 주민을 등록해야 하는데 주민번호 개수가 맞지 않다면?
+ 
+ 휴대폰 전화번호가 010으로 시작하지 않는다면? 초기화를 진행할 수 없게 될 것입니다.
+ 
+ 실패가능한 초기화의 구조는 `init?()` 뒤에 `optional`을 붙여주면 됩니다.
+ 
+ 그렇다면 초기화가 실패하면 어떤 값을 돌려주어야 할까요? 바로 `nil`입니다.
+ */
+
+class KoreanPerson {
+    var name: String
+    let country: String
+    init(name: String) {
+        self.name = name
+        self.country = "korea"
+    }
+    init?(name: String, country: String) {
+        // 실패 가능한 초기화
+        self.name = name
+        // 이렇게 조건을 확인합니다.
+        if country != "korea" {
+            // 일정 조건이 맞지 않는경우 nil을 반환합니다.
+            return nil
+        }
+        self.country = country
+    }
+}
+
+/*:
+ 정의는 마쳤습니다. 이젠 사용을 해볼 차례인데요.
+ 
+ 여기서, 일반 초기화는 객체를 가져다주지만 실패가능한 초기화는 옵셔널객체를 가져다 준다는 것을 기억해주세요.
+ */
+
+let koreanPerson = KoreanPerson(name: "한국인")
+koreanPerson // "한국인", "korea"
+let koreanPerson02 = KoreanPerson(name: "한국사람", country: "korea")
+koreanPerson02 // "한국사람", "korea"
+let neighborCountryPerson = KoreanPerson(name: "이웃국인", country: "neighbor")
+neighborCountryPerson // nil
+let maybeKoreanPerson = KoreanPerson(name: "한국사람인가", country: "korea")
+maybeKoreanPerson // optional "한국사람인가", "korea"
+
 //: [Next](@next)
