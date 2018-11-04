@@ -317,5 +317,48 @@ let neighborCountryPerson = KoreanPerson(name: "이웃국인", country: "neighbo
 neighborCountryPerson // nil
 let maybeKoreanPerson = KoreanPerson(name: "한국사람인가", country: "korea")
 maybeKoreanPerson // optional "한국사람인가", "korea"
+if let unwrappingKoreanPerson = KoreanPerson(name: "언래핑", country: "korea") {
+    unwrappingKoreanPerson // 언래핑 된 KoreanPerson 객체
+}
+
+/*:
+ #### 객체 해제 메서드
+ 
+ 각 객체는 생성되면 메모리를 할당받게 됩니다.
+ 
+ 메모리에 상주하다가 더 이상 이 메모리(객체)를 참조하는 것이 0개가 되면 메모리에서 해제되면서 메모리 사용량이 줄어듭니다.
+ 
+ 이 내용은 다음 챕터에서 자세하게 다룰 예정이니 위 내용정도로만 이해해주시면 됩니다.
+ 
+ 객체는 자동으로 참조하는 곳이 0개가 되면 메모리에서 해제가 되는데 해당 객체가 메모리에서 해제될 때 어떠한 행동을 해야한다면?
+ 
+ `deinit`메서드에서 해야하는 행동을 정의하면 됩니다.
+ 
+ `init()`과는 다르게 매개변수를 받을 수가 없기때문에 `()`는 없습니다.
+ */
+
+class deinitExam {
+    init() {
+        print("객체가 생성되었습니다.")
+    }
+    deinit {
+        print("객체가 해제되었습니다.")
+    }
+}
+
+/*:
+ ----
+ 이번 챕터에서는 초기화에 대하여 알아보았습니다.
+ 
+ 이미 정의되어있는 기본 타입을 사용하는 경우도 많지만, 사용자 타입을 직접 만들어서 사용하는경우도 굉장히 많습니다.
+ 
+ 위 내용들을 숙지하신 상태로 사용자 타입을 정의해서 사용한다면 기본적인 에러들을 많이 비켜갈 수 있는데 도움이 될 것이라고 생각합니다.
+ 
+ 다음 챕터에서는 메모리 관리에 대해서 알아보도록 하겠습니다.
+ 
+ 다음에는 조금 더 좋은 내용으로 정리하고 부족한 내용은 채워서 가져오도록 하겠습니다.
+ 
+ 봐주셔서 감사합니다.
+ */
 
 //: [Next](@next)
