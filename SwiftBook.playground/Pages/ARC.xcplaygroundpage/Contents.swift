@@ -90,6 +90,8 @@ var reference01: ReferenceExam! = ReferenceExam() // 여기서 레퍼런스 카�
 reference01 = nil // 여기서 레퍼런스 카운트가 -1 됩니다.
 // 해제 되었습니다.
 
+print("###################################")
+
 /*:
  위에서 객체를 생성하는 부분에서 레퍼런스 카운트가 증가됩니다.
  
@@ -132,6 +134,8 @@ reference02 = nil // 여기서 레퍼런스 카운트가 -1 됩니다.
 /*:
  #### 지역 변수
  
+ - 소유권을 잃는 시점: 영역에서 벗어날 때
+ 
  지역 변수는 간단하게 함수를 이용해서 설명할 수 있습니다.
  */
 
@@ -145,6 +149,94 @@ func localVariable() {
  위 예시에서 `local`변수는 함수 내에서만 사용할 수 있는 지역 변수입니다.
  
  함수 외부에서는 해당 지역 변수를 참조할 수도, 사용할 수도 없습니다.
+ */
+
+/*:
+ 함수에 객체를 추가해서 소유와 해제를 실행해보겠습니다.
+ */
+
+class LocalVariableClass {
+    init() {
+        print("로컬 클래스 생성")
+    }
+    deinit {
+        print("로컬 클래스 해제")
+    }
+    func localPrint() {
+        print("로컬 클래스에서 출력")
+    }
+}
+func localVariable01() {
+    let localVariableClass = LocalVariableClass()
+    localVariableClass.localPrint()
+}
+localVariable01()
+// 로컬 클래스 생성
+// 로컬 클래스에서 출력
+// 로컬 클래스 해제
+
+print("###################################")
+
+/*:
+ #### 프로퍼티
+ 
+ - 소유권을 잃는 시점: 객체의 생명 주기에 따라
+ 
+ 프로퍼티는 클래스를 통해서 예제를 구성해보겠습니다.
+ */
+
+class PropertyClass {
+    var propertyObj: LocalVariableClass! = LocalVariableClass()
+    init() {
+        print("프로퍼티 클래스 생성")
+    }
+    deinit {
+        print("프로퍼티 클래스 해제")
+    }
+}
+var property01: PropertyClass! = PropertyClass()
+// 로컬 클래스 생성
+// 프로퍼티 클래스 생성
+property01 = nil
+// 프로퍼티 클래스 해제
+// 로컬 클래스 해제
+
+print("###################################")
+
+/*:
+ 여기서 로컬클래스가 프로퍼티 클래스보다 늦게 해제되는 것을 확인할 수 있습니다.
+ 
+ 레퍼런스 카운트에 의해서 `PropertyClass`가 `LocalVariableClass`를 참조하고 있기 때문에 프로퍼티 클래스가 먼저 해제되고, 레퍼런스 카운트가 0이 된 로컬 클래스는 그 뒤에 해제가 됩니다.
+ */
+
+/*:
+ #### 타입 프로퍼티
+ 
+ - 소유권을 잃는 시점: 객체의 생명 주기와 상관 없음
+ 
+ 타입 프로퍼티도 클래스를 통해서 예제를 구성해보았습니다.
+ */
+
+class TypePropertyClass {
+    static var typePropertyObj: LocalVariableClass! = LocalVariableClass()
+    init() {
+        print("타입 프로퍼티 클래스 생성")
+    }
+    deinit {
+        print("타입 프로퍼티 클래스 해제")
+    }
+}
+var property02: TypePropertyClass! = TypePropertyClass()
+// 타입 프로퍼티 클래스 생성
+property02 = nil
+// 타입 프로퍼티 클래스 해제
+
+TypePropertyClass.typePropertyObj.localPrint()
+// 로컬 클래스 생성
+// 로컬 클래스에서 출력
+
+/*:
+ 타입 프로퍼티는 객체의 생명 주기와는 상관없이 전혀 다른 객체처럼 사용됩니다.
  */
 
 //: [Next](@next)
