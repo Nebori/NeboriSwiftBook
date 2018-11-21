@@ -235,8 +235,46 @@ TypePropertyClass.typePropertyObj.localPrint()
 // 로컬 클래스 생성
 // 로컬 클래스에서 출력
 
+print("###################################")
+
 /*:
  타입 프로퍼티는 객체의 생명 주기와는 상관없이 전혀 다른 객체처럼 사용됩니다.
  */
+
+/*:
+ ### 콜렉션의 소유
+ 
+ 콜렉션의 소유는 어떻게 될까요?
+ 
+ - 콜렉션에 객체 저장: 콜렉션이 객체를 소유
+ - 콜렉션의 객체 삭제: 소유권을 잃음
+ - 콜렉션 객체 해제: 소유권을 잃음
+ */
+
+class collectionTestClass {
+    var name: String
+    init(_ name: String) {
+        print("\(name) 클래스 생성")
+        self.name = name
+    }
+    deinit {
+        print("\(name) 클래스 해제")
+    }
+}
+
+var collectionArray: Array<collectionTestClass>! = Array<collectionTestClass>()
+collectionArray.append(collectionTestClass("First"))
+// First 클래스 생성
+collectionArray.append(collectionTestClass("Second"))
+// Second 클래스 생성
+collectionArray.append(collectionTestClass("Third"))
+// Third 클래스 생성
+
+collectionArray.remove(at: 0)
+// First 클래스 해제
+collectionArray = nil
+// Second 클래스 해제
+// Third 클래스 해제
+// 여기서 해제되는 순서는 다를 수 있습니다.
 
 //: [Next](@next)
