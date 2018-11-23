@@ -277,4 +277,126 @@ collectionArray = nil
 // Third 클래스 해제
 // 여기서 해제되는 순서는 다를 수 있습니다.
 
+print("###################################")
+
+/*:
+ ### 강한 순환 참조
+ 
+ 강한 순환 참조는 두개 이상의 클래스에서 서로(상호간)를 참조하는 것을 말합니다.
+ 
+ 레퍼런스 카운트가 0이되어야 메모리에서 해제된다는 것은 위에서도 말씀 드렸었습니다.
+ 
+ 그런데 서로를 소유하고 있다면? 아마 수동으로 해제하지 않는 한 레퍼런스 카운트가 0이 되지 않을 것 입니다.
+ 
+ 간단한 예제로 임의의 클래스를 2개 만들어서 정말로 메모리에서 해제가 되지 않는지 확인해보도록 하겠습니다.
+ */
+
+/*:
+ #### 순환 상태가 아닐 때
+ */
+
+class OneClass {
+    var secondObj: TwoClass!
+    init() {print("OneClass 생성")}
+    deinit {print("OneClass 해제")}
+}
+class TwoClass {
+    var firstObj: OneClass!
+    init() {print("TwoClass 생성")}
+    deinit {print("TwoClass 해제")}
+}
+var first01: OneClass! = OneClass()
+var second01: TwoClass! = TwoClass()
+
+first01 = nil
+second01 = nil
+
+print("###################################")
+
+/*:
+ 위 예제들과 똑같이 해제가 되었습니다.
+ */
+
+/*:
+ #### 순환 상태일 때
+ */
+
+var first02: OneClass? = OneClass()
+// OneClass 생성
+var second02: TwoClass? = TwoClass()
+// TwoClass 생성
+
+first02?.secondObj = second02
+second02?.firstObj = first02
+
+first02 = nil
+second02 = nil
+
+print("###################################")
+
+/*:
+ 이번 예제는 순환 상태일 때를 가정하여 작성하였습니다.
+ 
+ 코드 마지막에는 `first02`, `second02`객체 모두 `nil`을 할당하여 레퍼런스 카운트가 1씩 감소하였지만, 서로의 객체를 참조하는 내부 프로퍼티가 존재하기때문에 레퍼런스 카운트가 0이되지 않아서 메모리에서 해제되지 않습니다.
+ 
+ 이런 상황이 실제 프로젝트에서 발생하게 된다면 메모리 낭비를 발생시킵니다.
+ 
+ 그렇다면 일일히 모든 객체의 참조 상태를 확인해서 해제를 시켜주어야 할까요? 다른 쉬운 방법은 없을까요?
+ */
+
+/*:
+ ### 약한 참조
+ 
+ 이럴 때 약한 참조를 사용하면 일일히 참조 상태를 확인해야 하는 상황에서 벗어날 수 있습니다.
+ 
+ 약한 참조에는 두가지가 존재합니다. 아래 내용을 확인하시면 차이점을 아실 수 있습니다.
+ 
+ - weak:
+    - 참조하던 객체가 해제되면 `nil`로 변함
+    - `nil`이 할당 가능하므로 옵셔널
+ - unowned:
+    - 참조하던 객체가 해제되도 `nil`로 변하지 않음 -> Error 가능성 높음
+    - `nil`이 할당 안되므로 옵셔널이 아님
+ */
+
+/*:
+ #### Weak
+ 
+ `weak`의 경우 참조하던 객체가 `nil`이 되면 자동으로 자기 자신도 `nil`처리를 해버립니다.
+ 
+ 여기서 `nil`이 된다는 것은 바로 옵셔널이라는 뜻이죠.
+ 
+ 참조해야하는 객체가 때에따라 `nil`이 될 가능성이 있다면 약한 참조를 이용하시면 좋습니다.
+ 
+ 그렇다면 약한 참조를 이용하여 위 예제를 다시 작성해보겠습니다. (약한 참조를 이용하기위해서 클래스도 다시 작성합니다.)
+*/
+
+class WeakOneClass {
+    var secondObj: WeakTwoClass!
+    init() {print("WeakOneClass 생성")}
+    deinit {print("WeakOneClass 해제")}
+}
+class WeakTwoClass {
+    // 이렇게 프로퍼티 앞에 weak 키워드를 넣으면 약한 참조입니다.
+    weak var firstObj: WeakOneClass!
+    init() {print("WeakTwoClass 생성")}
+    deinit {print("WeakTwoClass 해제")}
+}
+var first03: WeakOneClass? = WeakOneClass()
+// OneClass 생성
+var second03: WeakTwoClass? = WeakTwoClass()
+// TwoClass 생성
+
+first03?.secondObj = second03
+second03?.firstObj = first03
+
+first03 = nil
+// WeakOneClass 해제
+second03 = nil
+// WeakTwoClass 해제
+
+/*:
+ 약한 참조를 이용했더니 `first03`, `second03`객체가 모두 해제되었습니다.
+ */
+
 //: [Next](@next)
