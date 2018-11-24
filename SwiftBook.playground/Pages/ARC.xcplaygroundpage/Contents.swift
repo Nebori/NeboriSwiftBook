@@ -395,8 +395,67 @@ first03 = nil
 second03 = nil
 // WeakTwoClass 해제
 
+print("###################################")
+
 /*:
  약한 참조를 이용했더니 `first03`, `second03`객체가 모두 해제되었습니다.
+ */
+
+/*:
+ #### Unowned
+ 
+ `unowned`는 `weak`와는 다르게 참조하던 객체가 `nil`이 되더라도 자기 자신은 참조를 그대로 유지합니다.
+ 
+ 그렇기때문에 이미 해제된 메모리를 참조를 하게 되면서 댕글링 포인터 위험이 있을 수 있습니다.
+ 
+ (여기서 댕글링 포인터란? 위에 적어놓은대로 이미 해제된 메모리 주소를 가지고 있는 포인터를 말합니다.)
+ 
+ 사용을 한번 해볼까요?
+ */
+
+class Device {
+    var battery: Battery!
+    init() {print("Device 생성")}
+    deinit {print("Device 해제")}
+}
+class Battery {
+    unowned var device: Device
+    init(device: Device) {
+        self.device = device
+        print("Battery 생성")
+    }
+    deinit {print("Battery 해제")}
+}
+var iPhone: Device! = Device()
+var battery: Battery! = Battery(device: iPhone)
+iPhone.battery = battery
+
+iPhone = nil
+/*
+ error: Execution was interrupted, reason: signal SIGABRT.
+ The process has been left at the point where it was interrupted, use "thread return -x" to return to the state before expression evaluation.
+ */
+// 여기서 댕글링 포인터가 발생합니다.
+// battery.device
+battery = nil
+
+/*:
+ ****
+ 이번 챕터에서는 ARC에 대하여 알아보았습니다.
+ 
+ 요새 일반 PC에서는 메모리의 용량이 매우 커지면서 사실 메모리관리의 중요성이 떨어진 것이 사실입니다. (게임에선 아니기도 하더군요)
+ 
+ 하지만 모바일 디바이스는 아직도 메모리가 그렇게 넉넉하지는 않습니다.
+ 
+ 메모리 관리에 신경을 쓰지 않아도 어플리케이션이 작동하는 것은 사실이지만, 메모리 누수가 지속적으로 발생한다면 사용자가 느낄정도로 느려지는 경우도 있습니다.
+ 
+ 강한 참조, 약한 참조를 잘 사용하여 메모리 관리를 해준다면 훨씬 좋은 어플리케이션을 만들 수 있을 것 입니다.
+ 
+ 다음 챕터에서는 상속에 대해서 알아보도록 하겠습니다.
+ 
+ 다음에는 조금 더 좋은 내용으로 정리하고 부족한 내용은 채워서 가져오겠습니다.
+ 
+ 봐주셔서 감사합니다. 
  */
 
 //: [Next](@next)
