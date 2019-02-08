@@ -86,4 +86,118 @@ if hero01.isLongerName {
  자녀 클래스는 부모 클래스를 상속만 받았을 뿐, 아무 구현도 하지 않았지만 부모 클래스가 가지고 있던 프로퍼티와 메서드를 모두 활용 가능한 것을 확인할 수 있습니다.
  */
 
+/*:
+ #### 재정의
+ 
+ 이제는 부모 클래스의 프로퍼티와 메서드를 재정의 하는 방법을 알아보려고 합니다.
+ 
+ 재정의는 부모 클래스에서 받은 프로퍼티나 메서드를 동일한 이름을 사용하지만, 다른 행동을 하도록 정의하는 것을 말합니다.
+ */
+
+class VarietyHero: OlderHero {
+    override var isLongerName: Bool {
+        return name.count > 3
+    }
+    override func infoPrint() {
+        print("나는 빛나는 \(name)이고, 무기는 빛나는 \(weapon)입니다.")
+    }
+}
+// 초기화는 재정의를 하지 않았기때문에 이전 init()메서드를 그대로 사용합니다.
+var hero02 = VarietyHero(name: "영웅", weapon: "좋은검")
+hero02.infoPrint()
+// 나는 빛나는 영웅이고, 무기는 좋은검입니다.
+if hero02.isLongerName {
+    // 영웅의 이름이 3글자보다 많군요.
+} else {
+    // 영웅의 이름이 3글자 이하군요.
+    // 위 예제는 이곳이 실행되겠네요.
+}
+
+/*:
+ 위 예제에서 볼 수 있듯이, 부모 클래스의 프로퍼티와 메서드를 상속받아 재정의를 할 수 있다는 것을 확인할 수 있습니다.
+ 
+ 하지만 재정의는 해당 프로퍼티와 메서드의 이름은 변경할 수 없기때문에 이는 주의해야합니다.
+ */
+
+/*:
+ #### super
+ 
+ `super`는 부모 클래스의 프로퍼티나 메서드에 접근할 때 사용할 수 있는 키워드입니다.
+ */
+
+class mutantHero: OlderHero {
+    override func infoPrint() {
+        print("나는 돌연변이 \(name)이고, 무기는 \(weapon)입니다.")
+        // 부모의 infoPrint()는
+        // print("나는 \(name)이고, 무기는 \(weapon)입니다.")
+    }
+    func allInfoPrint() {
+        self.infoPrint() // 현재 클래스의 infoPrint()
+        super.infoPrint() // 부모 클래스의 infoPrint()
+    }
+}
+
+var hero03 = mutantHero(name: "영웅", weapon: "총")
+hero03.allInfoPrint()
+// 나는 돌연변이 영웅이고, 무기는 총입니다.
+// 나는 영웅이고, 무기는 총입니다.
+
+/*:
+ super`는 상속받은 자식 클래스에서 부모 클래스에 접근하기 위해서 사용한다는 것을 볼 수 있습니다.
+ */
+
+/*:
+ #### 자식 클래스의 초기화
+ 
+ 이번에는 부모 클래스와 이를 상속받은 자식 클래스에서 초기화가 필요한 프로퍼티가 있는 경우에 어떻게 처리를 하는지 알아보도록 하겠습니다.
+ 
+ 부모 클래스에서도 초기화가 필요한 프로퍼티가 있고, 상속받은 자식 클래스에서도 초기화가 필요한 프로퍼티가 있다고 가정하겠습니다.
+ 
+ 자식 클래스에서 초기화 메서드에 처리하는 순서는 아래와 같습니다.
+ 
+ - 자식 클래스의 프로퍼티 초기화
+ - 부모 클래스의 초기화 메서드 호출
+ - 자식 클래스의 나머지 초기화 동작 (메서드 등)
+ 
+ 바로 아래 있는 예시로 확인해보세요.
+ */
+
+class UnfinishedHero {
+    var name: String
+    init(name: String) {
+        self.name = name
+    }
+    convenience init() {
+        self.init(name: "노네임")
+    }
+}
+class ReadyHero: UnfinishedHero {
+    var weapon: String
+    init(weapon: String) {
+        // 자식 클래스의 프로퍼티 초기화
+        self.weapon = weapon
+        // 부모 클래스의 지정 초기화 메서드 호출
+        super.init(name: "노네임")
+        // 자식 클래스의 나머지 초기화 동작
+        self.printInfo()
+    }
+    init(name: String, weapon: String) {
+        // 자식 클래스의 프로퍼티 초기화
+        self.weapon = weapon
+        // 부모 클래스의 지정 초기화 메서드 호출
+        super.init(name: name)
+        // 자식 클래스의 나머지 초기화 동작
+        self.printInfo()
+    }
+    
+    func printInfo() {
+        print("내 이름은 \(name), 무기는 \(weapon)이다.")
+    }
+}
+
+_ = ReadyHero(name: "불", weapon: "숯")
+// 내 이름은 불, 무기는 숯이다.
+_ = ReadyHero(weapon: "숯")
+// 내 이름은 노네임, 무기는 숯이다.
+
 //: [Next](@next)
